@@ -9,7 +9,7 @@ System call tracing for getpid()
 	- user/user.h a list of system calls availabel in xv6
         - include/sys
    -Kernel code
-	- mainc() in main initializes the tarp table by calling tvinit
+	- mainc() in main initializes the trap table by calling tvinit
         - trap.c initializes the traphandler for system call
         - vectors(in kernel/vectors.S) make a call to alltraps
         - alltraps is in trapasm.S
