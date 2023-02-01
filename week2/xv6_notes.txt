@@ -1,0 +1,17 @@
+
+How to add user-level application?
+   - Add your application under user/. Eg: user/hello.c
+   - Make changes to user/makefile.mk to include your binary name
+   - Compile 
+   - Run the application inside xv6 to make sure its working
+System call tracing for getpid()
+   -User code
+	- user/user.h a list of system calls availabel in xv6
+        - include/sys
+   -Kernel code
+	- mainc() in main initializes the tarp table by calling tvinit
+        - trap.c initializes the traphandler for system call
+        - vectors(in kernel/vectors.S) make a call to alltraps
+        - alltraps is in trapasm.S
+        - alltraps sets up the trapframe(in include/x86.h) and jumpas to trap(in kernel/trap.c)
+        - trap() in turn calls syscall() in kernel/sysproc.c
