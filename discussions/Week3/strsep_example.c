@@ -7,13 +7,14 @@ int main(int argc, char *argv[]){
     //strdup save a copy of a string
     char *str = strdup("This is a line");
    
-    //strsep doest not wotk on constant string
-    char *tok = strsep(&str, " ");
+    //strsep doest not work on constant string
 
-    while(tok != NULL){
-        printf("%s\n", tok);
-        tok = strsep(&str, " ");
+    char *tok = str, *tmp = str; 
+
+    while((tok = strsep(&tmp, " ")) != NULL){
+	printf("%s\n", tok);
     }
+
     free(str);
     return 0;
 }
