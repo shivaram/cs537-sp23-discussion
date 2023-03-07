@@ -60,7 +60,7 @@ void get_forks(int p){
   
 
    /*
-   Code for changing state to wait, and then change state to EATING
+   Code for then change state to EATING and wait while HUNGRY
    */
  
    pthread_mutex_unlock(&mutex); /* exit cs, unlock mutex */
