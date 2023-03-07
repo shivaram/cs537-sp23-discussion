@@ -28,7 +28,7 @@ int left(int p)  {
 }
 
 int right(int p) {
-    return (p + 1) % 5;
+    return (p + 1) % PHILOSOPHERS;
 }
 
 void think() {
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
         state[i] = THINKING;
         }
 
-    for (i = 0; i < 5; i++) 
+    for (i = 0; i < PHILOSOPHERS; i++) 
 	    pthread_join(p[i], NULL); 
 
     printf("dining: finished\n");
