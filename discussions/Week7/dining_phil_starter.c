@@ -48,22 +48,21 @@ int update_state(int p){
 void put_forks(int p){
     pthread_mutex_lock(&mutex);    
 
-    state[p] = THINKING;   
-
-    update_state(left(p));  /* update_state neighbors */
-    update_state(right(p));
+   /*
+   Code for changing state to THINKING
+   */
 
     pthread_mutex_unlock(&mutex);
 }
 
 void get_forks(int p){
    pthread_mutex_lock (&mutex);  /* enter cs, lock mutex */
-   state[p] = HUNGRY;  /* set philosopher's state to HUNGRY */
-   update_state(p); /* update_state philosopher */
+  
 
-   while (state[p] == HUNGRY){      /* loop while philosopher is hungry */
-     pthread_cond_wait(&cond[p],&mutex);
-   }
+   /*
+   Code for changing state to wait, and then change state to EATING
+   */
+ 
    pthread_mutex_unlock(&mutex); /* exit cs, unlock mutex */
 }
 
@@ -92,13 +91,13 @@ int main(int argc, char *argv[]) {
 	exit(1);
     }
     printf("dining: started\n");
-
-    pthread_mutex_init(&mutex, NULL);
-    pthread_mutex_init(&print_lock, NULL);
+    
     int i;
-    for (i = 0; i < PHILOSOPHERS; i++) 
-	    pthread_cond_init(&cond[i], NULL);
-    //Sem_init(&print_lock, 1);
+
+    /*
+    initialize mutex and condition variables 
+    */
+
 
     pthread_t p[PHILOSOPHERS];
     arg_t a[PHILOSOPHERS];
