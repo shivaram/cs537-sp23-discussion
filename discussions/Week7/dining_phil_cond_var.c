@@ -77,17 +77,18 @@ void *philosopher(void *arg) {
     int i;
     for (i = 0; i < args->num_loops; i++) {
         pthread_mutex_lock(&print_lock); printf("%d: think\n", args->thread_id); pthread_mutex_unlock(&print_lock);
-    think();
-    get_forks(args->thread_id);
+        think();
+        get_forks(args->thread_id);
         pthread_mutex_lock(&print_lock); printf("%d: eat\n", args->thread_id); pthread_mutex_unlock(&print_lock);
-    eat();
-    put_forks(args->thread_id);
+        eat();
+        put_forks(args->thread_id);
         pthread_mutex_lock(&print_lock); printf("%d: done\n", args->thread_id); pthread_mutex_unlock(&print_lock);
     }
     return NULL;
 }
 
 int main(int argc, char *argv[]) {
+
     if (argc != 2) {
 	fprintf(stderr, "usage: dining_philosophers <num_loops>\n");
 	exit(1);
@@ -97,13 +98,13 @@ int main(int argc, char *argv[]) {
     pthread_mutex_init (&mutex, NULL);
     pthread_mutex_init (&print_lock, NULL);
     int i;
-    for (i = 0; i < 5; i++) 
-	    pthread_mutex_init(&cond[i], NULL);
+    for (i = 0; i < PHILOSOPHERS; i++) 
+	    pthread_cond_init(&cond[i], NULL);
     //Sem_init(&print_lock, 1);
 
-    pthread_t p[5];
-    arg_t a[5];
-    for (i = 0; i < 5; i++) {
+    pthread_t p[PHILOSOPHERS];
+    arg_t a[PHILOSOPHERS];
+    for (i = 0; i < PHILOSOPHERS; i++) {
         a[i].num_loops = atoi(argv[1]);
         a[i].thread_id = i;
         pthread_create(&p[i], NULL, philosopher, &a[i]);
