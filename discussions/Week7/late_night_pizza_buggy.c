@@ -36,7 +36,7 @@ void *pizza_delivery(){
         pthread_cond_wait(&order, &mutex);
         prepare_pizza();
         slices = S;
-        first = 1;
+        first = 0;
 
         //wake up all the students when order is ready
         pthread_cond_broadcast(&deliver);
@@ -53,8 +53,8 @@ void *student(){
         */
         while(slices == 0){
             if(first){
+		first = 1;
                 pthread_cond_signal(&order);
-                first = 0;
             }
             pthread_cond_wait(&deliver, &mutex);
         }
