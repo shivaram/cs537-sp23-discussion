@@ -20,6 +20,13 @@ typedef struct {
 
 enum states{THINKING, EATING, HUNGRY} state[PHILOSOPHERS]; /* state of each philosopher */
 
+void space(int s) {
+    pthread_mutex_lock(&print_lock);
+    int i;
+    for (i = 0; i < s * 10; i++)
+	printf(" ");
+}
+
 int left(int p)  {
     return (p + PHILOSOPHERS -1) % PHILOSOPHERS;
 }
@@ -69,17 +76,17 @@ void get_forks(int p){
 void *philosopher(void *arg) {
     arg_t *args = (arg_t *) arg;
 
-    pthread_mutex_lock(&print_lock); printf("%d: start\n", args->thread_id);  pthread_mutex_unlock(&print_lock);
+    space(args->thread_id); printf("%d: start\n", args->thread_id);  pthread_mutex_unlock(&print_lock);
 
     int i;
     for (i = 0; i < args->num_loops; i++) {
-        pthread_mutex_lock(&print_lock); printf("%d: think\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+        space(args->thread_id); printf("%d: think\n", args->thread_id); pthread_mutex_unlock(&print_lock);
         think();
         get_forks(args->thread_id);
-        pthread_mutex_lock(&print_lock); printf("%d: eat\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+        space(args->thread_id); printf("%d: eat\n", args->thread_id); pthread_mutex_unlock(&print_lock);
         eat();
         put_forks(args->thread_id);
-        pthread_mutex_lock(&print_lock); printf("%d: done\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+       space(args->thread_id); printf("%d: done\n", args->thread_id); pthread_mutex_unlock(&print_lock);
     }
     return NULL;
 }
