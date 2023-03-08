@@ -11,6 +11,12 @@ pthread_cond_t cond[PHILOSOPHERS]; /* one per philosopher */
 pthread_mutex_t print_lock;   /* protects against output interleaving */
 
 
+void space(int s) {
+    pthread_mutex_lock(&print_lock);
+    int i;
+    for (i = 0; i < s * 10; i++)
+	printf(" ");
+}
 
 typedef struct {
     int num_loops;
@@ -70,17 +76,17 @@ void get_forks(int p){
 void *philosopher(void *arg) {
     arg_t *args = (arg_t *) arg;
 
-    pthread_mutex_lock(&print_lock); printf("%d: start\n", args->thread_id);  pthread_mutex_unlock(&print_lock);
+    space(args->thread_id); printf("%d: start\n", args->thread_id);  pthread_mutex_unlock(&print_lock);
 
     int i;
     for (i = 0; i < args->num_loops; i++) {
-        pthread_mutex_lock(&print_lock); printf("%d: think\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+        space(args->thread_id); printf("%d: think\n", args->thread_id); pthread_mutex_unlock(&print_lock);
         think();
         get_forks(args->thread_id);
-        pthread_mutex_lock(&print_lock); printf("%d: eat\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+        space(args->thread_id); printf("%d: eat\n", args->thread_id); pthread_mutex_unlock(&print_lock);
         eat();
         put_forks(args->thread_id);
-        pthread_mutex_lock(&print_lock); printf("%d: done\n", args->thread_id); pthread_mutex_unlock(&print_lock);
+       space(args->thread_id); printf("%d: done\n", args->thread_id); pthread_mutex_unlock(&print_lock);
     }
     return NULL;
 }
