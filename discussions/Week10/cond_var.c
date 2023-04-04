@@ -13,8 +13,7 @@ int  count = 0;
 #define COUNT_HALT1  3
 #define COUNT_HALT2  6
 
-main()
-{
+int main(int argc, char **argv){
    pthread_t thread1, thread2;
 
    pthread_create( &thread1, NULL, &functionCount1, NULL);
